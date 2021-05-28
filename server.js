@@ -96,7 +96,7 @@ io.on('connection', (socket) => {
         io.emit('quit', socket.id)
     })
 })
-
-http.listen(5000, () => {
+const port=process.env.PORT || 5000;
+http.listen(port, () => {
     console.log('http://localhost:5000/index.html')
 });
