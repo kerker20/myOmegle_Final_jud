@@ -26,12 +26,11 @@ Chat.prototype = {
             let userName = $('.user-name').value;
             let userImg = $('.my-por').getAttribute('src');
             this.login(userName, userImg);
-            $('.user-list-wrap').addClass('d-block').removeClass('d-none');
-            $('.tab').addClass('d-block').removeClass('d-none');
-            $('.friends-info').addClass('d-block').removeClass('d-none');
-            // $('.user-list-wrap').css("display", "block");
-            $('.container').addClass('d-block');
-
+            // $('.user-list-wrap').addClass('d-block').removeClass('d-none');
+            // $('.tab').addClass('d-block').removeClass('d-none');
+            // $('.friends-info').addClass('d-block').removeClass('d-none');
+            // // $('.user-list-wrap').css("display", "block");
+            // $('.container').addClass('d-block');
         }
         // }
     },
@@ -73,6 +72,13 @@ Chat.prototype = {
         $('.inp').onkeydown = (e) => {
             if (e.code === 'Enter') {
                 e.preventDefault ? e.preventDefault() : e.returnValue = false
+                var timeout;
+                console.log(this.userName);
+                typing = true;
+                socket.emit('typing', { typing: typing, to: this.sendFriend, user: this.userName });
+                console.log('happening');
+                clearTimeout(timeout);
+                timeout = setTimeout(timeoutFunction, 1000);
                 this.sendMessage();
             }
         }
@@ -199,6 +205,18 @@ Chat.prototype = {
                 $('.me_' + data.roomId).style.display = 'block';
             }
         })
+
+        window.socket.on('typing', function (data) {
+            console.log(data.typing);
+            console.log(data.user);
+            if (data.typing) {
+                $('#typing').style.display = "block";
+
+                $('.typing').innerText = "Someone is typing...";
+            } else {
+                $('#typing').text("");
+            }
+        });
 
         window.socket.on('leaveChatGroup', data => {
 
@@ -421,6 +439,10 @@ Chat.prototype = {
         })
     }
 
+}
+function timeoutFunction() {
+    typing = false;
+    socket.emit("typing", false);
 }
 function changeChat(e) {
     chat.changeChat(e)

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>Hello</h3>
+    <div class="inp inp-box" style="background-color: rgb(80, 80, 80);color: black;border-radius: 5px;margin-right: 20px;margin-top: 3.5rem;" contenteditable="true" placeholder="Enter Message..."></div>   
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+        $(".inp").keyup(function(){
+        console.log("happening");
+  });
+});
+    </script>
+</body>
+</html>

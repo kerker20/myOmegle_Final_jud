@@ -34,6 +34,12 @@ io.on('connection', (socket) => {
 
     })
 
+    socket.on('typing', function (typing) {
+        console.log(typing.to);
+        console.log(typing.user);
+        io.to(typing.to).emit('typing', typing)
+    });
+
     socket.on('sendMsg', (data) => {
         socket.to(data.id).emit('receiveMsg', data)
     })
