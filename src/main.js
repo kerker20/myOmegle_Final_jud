@@ -12,21 +12,28 @@ function Chat() {
 }
 Chat.prototype = {
     init() {
-        this.userName = localStorage.getItem('userName');
-        this.userImg = localStorage.getItem('userImg');
+        // this.userName = localStorage.getItem('userName');
+        // this.userImg = localStorage.getItem('userImg');
+        // this.selectClick();
+        // this.setAllPorarait();
+        // if (this.userName && this.userImg) {
+        //     $("#login-wrap").style.display = 'none';
+        //     this.login(this.userName, this.userImg);
+        // } else {
         this.selectClick();
         this.setAllPorarait();
-        if (this.userName && this.userImg) {
-            $("#login-wrap").style.display = 'none';
-            this.login(this.userName, this.userImg);
-        } else {
-            $('.chat-btn').onclick = () => {
-                let userName = $('.user-name').value;
-                let userImg = $('.my-por').getAttribute('src');
-                this.login(userName, userImg);
-                $('.user-list-wrap').addClass('d-block').removeClass('d-none');
-            }
+        $('.chat-btn').onclick = () => {
+            let userName = $('.user-name').value;
+            let userImg = $('.my-por').getAttribute('src');
+            this.login(userName, userImg);
+            $('.user-list-wrap').addClass('d-block').removeClass('d-none');
+            $('.tab').addClass('d-block').removeClass('d-none');
+            $('.friends-info').addClass('d-block').removeClass('d-none');
+            // $('.user-list-wrap').css("display", "block");
+            $('.container').addClass('d-block');
+
         }
+        // }
     },
     setAllPorarait() {
         $.ajax({
@@ -231,7 +238,7 @@ Chat.prototype = {
     setMyInfo() {
         $('.my-info').innerHTML = `<div class="user-item" style="border-bottom: 1px solid #eee;margin-bottom: 30px;">
                             <img src="${this.userImg}"  style="width: 60px;height: 60px;border-radius:50%">
-                            <span>${this.userName}&nbsp;<span><img src='https://i.ibb.co/nkBzrPF/removal-ai-tmp-609cb7c64018a.png' width='10' ></span></span>
+                            <span style="border-radius:5rem;width:fit-content;background-color:white;color:black;padding:3px;"><small><i class="fas fa-user"></i> - </small>${this.userName}&nbsp;<span><img src='https://i.ibb.co/nkBzrPF/removal-ai-tmp-609cb7c64018a.png' width='10' ></span></span>
                         </div>`;
     },
     drawUserList() {
@@ -240,7 +247,7 @@ Chat.prototype = {
             if (item.id !== this.id) {
                 str += `<div class="user-item friend-item" onclick="changeChat(this)">
                             <img src="${item.userImg}"  style="width: 60px;height: 60px; border-radius:50%">
-                            <span>${item.userName}&nbsp;<span><img src='https://i.ibb.co/nkBzrPF/removal-ai-tmp-609cb7c64018a.png' width='10' ></span></span>
+                            <span style="border-radius:5rem;width:fit-content;background-color:white;color:black;padding:3px;"><i class="fas fa-users"></i> ${item.userName}&nbsp;<span><img src='https://i.ibb.co/nkBzrPF/removal-ai-tmp-609cb7c64018a.png' width='10' ></span></span>
                             <input type="hidden" value="${item.id}">
                             <div class="circle me_${item.id}" style="display: none;">0</div>
                         </div>`;
@@ -256,10 +263,10 @@ Chat.prototype = {
             let str = '';
             this.chatGroupList.forEach(item => {
                 str += `<div class="chat-group-item" onclick="changeChatGroup(this)" style="border-bottom: 1px solid #eee;margin-bottom: 30px;">
-                            <span style="padding-left: 20px;">${item.chatGroupName}</span>
+                            <span style="padding-left: 20px;">${item.chatGroupName} 🌍</span>      
                             <input type="hidden" value="${item.roomId}">
                             <div class="circle me_${item.roomId}" style="display: none;">0</div>
-                            <button class="btn btn-danger btn-sm" onclick="exit('${item.roomId}')" style="position:absolute;margin-top:55px;margin-left:128px;">Leave Group</button>
+                            <button class="btn btn-danger btn-sm" onclick="exit('${item.roomId}')" style="position:absolute;margin-top:-2px;margin-left:128px;">Leave Group</button>
                         </div>`;
             });
             $('.chat-group-list').innerHTML = str;
@@ -413,6 +420,7 @@ Chat.prototype = {
             userName: this.userName
         })
     }
+
 }
 function changeChat(e) {
     chat.changeChat(e)
@@ -469,7 +477,7 @@ function createChatGroup() {
         if (item.id !== chat.id) {
             str += `<div class="user-item friend-item" onclick="selectChatGroup(this)">
                             <img src="${item.userImg}"  style="width: 60px;height: 60px;border-radius:50%;">
-                            <span>${item.userName}</span>
+                            <span style="border-radius:5rem;width:fit-content;background-color:white;color:black;padding:3px;"><small><i class="fas fa-users">&nbsp;</i></small>${item.userName}&nbsp;<span><img src='https://i.ibb.co/nkBzrPF/removal-ai-tmp-609cb7c64018a.png' width='10' ></span></span>
                             <input type="hidden" value="${item.id}">
                             <div class="circle me_${item.id}" style="display: none;">0</div>
                         </div>`;
@@ -483,7 +491,7 @@ function selectChatGroup(e) {
     let img = e.children[0].getAttribute('src');
     let userName = e.children[1].innerHTML;
     let id = e.children[2].getAttribute('value');
-    $('.now-select').innerHTML += `<div>${userName}</div>`
+    $('.now-select').innerHTML += `<div class="mt-1" style="border-radius:5rem;width:fit-content;background-color:white;color:black;padding:3px;">${userName}&nbsp;<span><i class="far fa-check-circle text-success"></i></span></div>`
     $('.now-select').style.display = 'block'
     if (chat.chatGroupArr) {
         chat.chatGroupArr.push({

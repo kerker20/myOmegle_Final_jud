@@ -28,6 +28,15 @@
             -moz-box-shadow: none;
             -webkit-box-shadow: none;
         }
+        .emot::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.emot {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
 
         .container {
             display: flex;
@@ -193,13 +202,16 @@
 
         .emot {
             display: none;
-            position: absolute;
+            position: relative;
+            overflow-y: scroll;
+            height: 450px;
             width: 600px;
             bottom: 100px;
-            background-color: rgb(107, 107, 107);
+            background-color: rgb(221, 221, 221);
             padding: 15px;
             z-index: 2;
-            margin-bottom: -600px;
+            border: 0.5px solid black;
+            margin-top: -300px;
             border-radius: 20px;
             box-sizing: border-box;
         }
@@ -271,6 +283,21 @@
         .box::-webkit-scrollbar {
     display: none;
 }
+option{
+    color:black;
+}
+.select-chat-group{
+    overflow-y: scroll;
+    height: 138px;
+}
+.now-select::-webkit-scrollbar{
+    display: none;
+}
+
+.now-select {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
 
     </style>
 </head>
@@ -278,9 +305,7 @@
 <body>
     <div class="user-panel">
         <div id="login-wrap">
-
-
-            <div class="container" style="margin-top: 70px; display: flex;justify-content: center; margin-left: 36rem;">
+            <div class="container" style="margin-top: 70px; display: flex;justify-content: center; margin-left: 33rem;">
                 <div class="row justify-content-center">
                     <div class="card" id="cont" style="width: 35rem;">
                         <div class="container" id="cont">
@@ -296,24 +321,6 @@
                                             class="form-control bg-light user-name contenteditable"
                                             style="width:19rem; color: #b50542;">
                                     </div>
-                                    <div class="form-group" style="margin-left: 6rem;">
-                                        <label for="rooms" style="color:#b50542;"><b>Country:</b></label>
-                                        <select name="room" class="bg-transparent" id="room" style="border:none;">
-                                            <option value="Philippines">Philippines</option>
-                                            <option value="Korea">Korea</option>
-                                            <option value="United States">United States</option>
-                                            <option value="Japan">Japan</option>
-                                            <option value="Poland">Poland</option>
-                                            <option value="UK">UK</option>
-                                            <option value="France">France</option>
-                                            <option value="England">England</option>
-                                            <option value="Taiwan">Taiwan</option>
-                                            <option value="Indonesia">Indonesia</option>
-                                            <option value="Africa">Africa</option>
-                                            <option value="Russia">Russia</option>
-                                        </select>
-                                    </div>
-
                                 </div>
 
                                 <div class="user-portrait" style="margin-left: 6rem;background-color: transparent;border: none;margin-top: -25px;">
@@ -337,7 +344,7 @@
 
         <div class="container" style="position: absolute;margin-top: 2rem;margin-left: -650px;">
 
-            <div class="user-list-wrap" style="margin-left: 50rem;background-color: #4b4b4b;border-radius: 15PX;">
+            <div class="user-list-wrap" style="margin-left: 50rem;background-color: #4b4b4b;border-radius: 15px;margin-top: -35px;">
                 <div class="my-info"></div>
                 <div class="tab">
                     <div class="friend-tab-box tab-box">
@@ -351,16 +358,35 @@
                         <div class="circle me-group-chat-tab">0</div>
                     </div>
                 </div>
-                <div class="friends-info info-wrapper" style="margin-top: -20px;">Friends</div>
+                <div class="friends-info info-wrapper" id="friends" style="margin-top: -20px;">Friends</div>
                 <div class="group-chat-info info-wrapper">
                     <button onclick="createChatGroup()" class="btn btn-secondary btn-sm" style="margin-top: -35px;margin-right: 141px;">Create GroupChat</button>
-                    <div class="select-chat-group ml-4"></div>
-                    <div class="now-select ml-4">
-                        <div>Select Friends: </div>
+                    <div class="now-select ml-4" style="overflow-y: scroll;height: 60px;">
+                    </div>
+                    <div class="ml-4" style="position: relative;">Select Friends: </div>
+                    <hr style="border: rgb(169, 168, 167) 1px solid;">
+                    <div class="select-chat-group ml-4">
                     </div>
                     <div class="create-group hidden ml-4">
-                        <input class="chatGroupNameInput" placeholder="Group Name"><br>
-                        <button class="btn btn-secondary btn-sm mt-3 mb-3" style="margin-right: 30rem;" onclick="confirmChatGroup()">Confirm</button>
+                        <div class="form-group">
+                            <label class="mt-2" for="rooms" style="color:#ffffff;"><b>Country :</b></label>
+                            <select name="room" class="bg-transparent text-light chatGroupNameInput" value="Philippines" id="room" style="border:none;">
+                                <option value="Philippines">Philippines</option>
+                                <option value="Korea">Korea</option>
+                                <option value="United States">United States</option>
+                                <option value="Japan">Japan</option>
+                                <option value="Poland">Poland</option>
+                                <option value="UK">UK</option>
+                                <option value="France">France</option>
+                                <option value="England">England</option>
+                                <option value="Taiwan">Taiwan</option>
+                                <option value="Indonesia">Indonesia</option>
+                                <option value="Africa">Africa</option>
+                                <option value="Russia">Russia</option>
+                            </select>
+                        </div>
+                        <!-- <input class="chatGroupNameInput" placeholder="Group Name"><br> -->
+                        <button class="btn btn-info btn-sm mb-3" style="margin-right: 30rem;margin-top: -10px;" onclick="confirmChatGroup()">Confirm</button>
                     </div>
                     <div class="chat-group-list"></div>
                 </div>
@@ -401,11 +427,12 @@
                     class="img-fluid" width='500' alt="">
                 </div>
                 <div class="group-chat-group-box wrap-box hidden">
-                    <div class="chatGroupName name-info"></div>
+                    <span style="position: absolute;margin-top: 3px;margin-left: 20px;border: none;">Country Name: </span>
+                    <div class="chatGroupName name-info" style="padding:3px;background-color:white;border-radius:2rem;width:fit-content;color:black;margin-left:9.5rem;"></div>
                     <div class="group-chat-box box" id="cont" style="width:50rem;height:25rem;"></div>
                     <div class="input-box">
                         <div class="send-img-box">
-                            <div class="group-chat-inp inp-box" style="background-color: white;color: black;border-radius: 5px;margin-left: 90px;" contenteditable="true" placeholder="Enter Message..." style="background-color: white;position: absolute; margin-left: 6rem;background-color: transparent;margin-top: -80px;"></div>
+                            <div class="group-chat-inp inp-box" style="background-color: white;color: black;border-radius: 5px;margin-left: 90px;" contenteditable="true" id="messageGroup" placeholder="Enter Message..." style="background-color: white;position: absolute; margin-left: 6rem;background-color: transparent;margin-top: -80px;"></div>
                             <img class="emoji-icon" style="margin-top: -10rem;position: absolute;margin-top: 1px;" src="static/emoji.png" onclick="showEmojiBox()">
                             <img class="emoji-icon imgBox" style="margin-top: -10rem;position: absolute;margin-left: 30px;margin-top: 1px;" src="static/emoji1.png" onclick="showEmotBox()">
                             <div class="btn">
@@ -419,30 +446,6 @@
             <div class="emot"></div>
             <div class="mask" onclick="hiddenBox()"></div>
 
-            <!-- <div class="group-chat-wrap" style="max-height: 600px;" >
-                <div class="default-bg group-chat-default" id="cont">
-                    <p style="position: absolute;margin-left: 20rem; margin-top: 290px;color:white;">Welcome in your GroupChat</p>
-                    <img src="groups.png"
-                        class="img-fluid" width='500' alt="">
-                </div>
-                <div class="group-chat-group-box wrap-box hidden">
-                    <div class="chatGroupName name-info">
-                    <div class="group-chat-box box"></div>
-                    <div class="input-box">
-                        <div class="send-img-box">
-                            <img class="emoji-icon" src="static/emoji.png" onclick="showEmojiBox()">
-                            <img class="emoji-icon imgBox" src="static/emoji1.png" onclick="showEmotBox()">
-                        </div>
-                        <div class="group-chat-inp inp-box" contenteditable="true" placeholder="Enter Message..."></div>
-                        <div class="btn">
-                            <button class="send-message-group-chat">Send</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="emoji"></div>
-            <div class="emot"></div>
-            <div class="mask" onclick="hiddenBox()"></div> -->
 
         </div>
     </div>
